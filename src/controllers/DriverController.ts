@@ -1,15 +1,19 @@
+import { controller } from '../types/controller'
+
 const { SignInDriver, RegisterDriver } = require('../utils/DriverQueries')
 
-const signInDriver = {
+const signInDriver: controller = {
   method: 'post',
   path: '/auth/login',
   fn: SignInDriver
 }
 
-const registerDriver = {
+const registerDriver: controller = {
   method: 'post',
   path: '/auth/register',
   fn: RegisterDriver
 }
 
-module.exports = [signInDriver, registerDriver]
+// const requat
+
+export default [signInDriver, registerDriver]

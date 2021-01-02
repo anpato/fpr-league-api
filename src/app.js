@@ -1,5 +1,7 @@
 const dependencies = require('./dependencies')
 const { handleError } = require('./middleware/errorHandler')
+const { updateUid } = require('./middleware/adminUid')
+const cron = require('node-cron')
 const AppRouter = require('./routes')
 
 class Server {
@@ -7,6 +9,13 @@ class Server {
     this.port = port || 3001
     this.app = require('express')()
   }
+
+  initBgJobs() {
+    // cron.schedule('0 */24 * * *', async () => {
+    //   await updateUid()
+    // })
+  }
+
   initDependencies() {
     this.app.disable('X-Powered-By')
     dependencies.forEach((d) => this.app.use(d))
