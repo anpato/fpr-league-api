@@ -4,7 +4,6 @@ const fs = require('fs')
 fs.readdirSync(__dirname)
   .filter((file) => file !== 'index.js')
   .forEach((file) => {
-    console.log(file)
     let route = require(`./${file}`)
     route.path && route.router ? AppRouter.use(route.path, route.router) : null
   })

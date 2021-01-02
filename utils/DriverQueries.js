@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const { ErrorHandler } = require('../middleware/errorHandler')
 const { appSecret } = require('../env')
+const { passwordValid } = require('../middleware/passwordHandlers')
 
 const SignInDriver = async (req, res, next) => {
   try {
@@ -12,11 +13,11 @@ const SignInDriver = async (req, res, next) => {
     })
     if (
       driver &&
-      (await bcrypt.compare(req.body.password, user.passwordDigest))
+      (await passwordValid(req.body.password, driver.passwordDigest))
     ) {
       const payload = { name: driver.name, id: driver.id }
       const token = jwt.sign(payload, appSecret)
-      return res.send({ driver, token })
+      return res.send({ payload, token })
     }
     return next(new ErrorHandler(400, 'User Not Found'))
   } catch (error) {

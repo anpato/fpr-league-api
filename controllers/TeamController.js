@@ -1,4 +1,3 @@
-const { Team } = require('../db/models')
 const { ListTeams, ViewTeam } = require('../utils/TeamQueries')
 
 const getTeams = {

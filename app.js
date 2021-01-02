@@ -1,4 +1,5 @@
 const dependencies = require('./dependencies')
+const { handleError } = require('./middleware/errorHandler')
 const AppRouter = require('./routes')
 
 class Server {

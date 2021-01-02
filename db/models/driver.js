@@ -2,6 +2,7 @@
 const { Model } = require('sequelize')
 const bcrypt = require('bcrypt')
 const { saltRounds } = require('../../env')
+const { genPassword } = require('../../middleware/passwordHandlers')
 module.exports = (sequelize, DataTypes) => {
   class Driver extends Model {
     /**
@@ -53,10 +54,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       hooks: {
         beforeCreate: async (user) => {
-          user.passwordDigest = await bcrypt.hash(
-            user.passwordDigest,
-            saltRounds
-          )
+          user.passwordDigest = await genPassword(user.passwordDigest)
         }
       },
       sequelize,
