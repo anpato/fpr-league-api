@@ -7,16 +7,18 @@ class Server {
     this.app = require('express')()
   }
   initDependencies() {
+    this.app.disable('X-Powered-By')
     dependencies.forEach((d) => this.app.use(d))
   }
 
   buildRoutes() {
     this.app.use('/api', AppRouter),
-      this.app.use('*', (req, res) =>
-        res
-          .status(404)
-          .send({ status: 'Error', msg: 'Not Found', statusCode: 404 })
-      )
+      this.app.use((err, req, res, next) => handleError(err, res))
+    this.app.use('*', (req, res) =>
+      res
+        .status(404)
+        .send({ status: 'Error', msg: 'Not Found', statusCode: 404 })
+    )
   }
   start() {
     this.initDependencies()
