@@ -1,19 +1,21 @@
-const dependencies = require('./dependencies')
+import dependencies from './dependencies'
 const { handleError } = require('./middleware/errorHandler')
 const { updateUid } = require('./middleware/adminUid')
-const cron = require('node-cron')
-const AppRouter = require('./routes')
-
+import cron from 'node-cron'
+import AppRouter from './routes'
+import express from 'express'
 class Server {
+  app: express.Application
+  port?: number | null
   constructor(port) {
     this.port = port || 3001
-    this.app = require('express')()
+    this.app = express()
   }
 
   initBgJobs() {
-    // cron.schedule('0 */24 * * *', async () => {
-    //   await updateUid()
-    // })
+    cron.schedule('0 */24 * * *', async () => {
+      await updateUid()
+    })
   }
 
   initDependencies() {
@@ -33,10 +35,13 @@ class Server {
   start() {
     this.initDependencies()
     this.buildRoutes()
+    if (process.env.NODE_ENV === 'production') {
+      this.initBgJobs()
+    }
     this.app.listen(this.port, () =>
       console.log(`Server Running On Port: ${this.port}`)
     )
   }
 }
 
-new Server().start()
+new Server(process.env.PORT).start()

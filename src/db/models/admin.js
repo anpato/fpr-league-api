@@ -1,7 +1,6 @@
 'use strict'
 const { Model } = require('sequelize')
 const { genPassword } = require('../../middleware/passwordHandlers')
-const { genUid } = require('../../middleware/uidGen')
 module.exports = (sequelize, DataTypes) => {
   class Admin extends Model {
     /**

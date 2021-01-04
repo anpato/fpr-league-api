@@ -1,11 +1,15 @@
 const { Driver } = require('../db/models')
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
-const { ErrorHandler } = require('../middleware/errorHandler')
-const { appSecret } = require('../env')
-const { passwordValid } = require('../middleware/passwordHandlers')
+import { Request, Response, NextFunction } from 'express'
+import jwt from 'jsonwebtoken'
+import { ErrorHandler } from '../middleware/errorHandler'
+import env from '../env'
+import { passwordValid } from '../middleware/passwordHandlers'
 
-const SignInDriver = async (req, res, next) => {
+const SignInDriver = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const driver = await Driver.findOne({
       where: { email: req.body.email },
@@ -16,7 +20,7 @@ const SignInDriver = async (req, res, next) => {
       (await passwordValid(req.body.password, driver.passwordDigest))
     ) {
       const payload = { name: driver.name, id: driver.id }
-      const token = jwt.sign(payload, appSecret)
+      const token = jwt.sign(payload, env.appSecret)
       return res.send({ payload, token })
     }
     return next(new ErrorHandler(400, 'User Not Found'))
@@ -25,7 +29,11 @@ const SignInDriver = async (req, res, next) => {
   }
 }
 
-const RegisterDriver = async (req, res) => {
+const RegisterDriver = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     let userData = {
       ...req.body,
@@ -44,8 +52,4 @@ const RegisterDriver = async (req, res) => {
     return next(new ErrorHandler(400, error.message))
   }
 }
-
-module.exports = {
-  SignInDriver,
-  RegisterDriver
-}
+export { SignInDriver, RegisterDriver }

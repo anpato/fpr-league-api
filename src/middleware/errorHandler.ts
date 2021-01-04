@@ -1,4 +1,5 @@
 import { Response } from 'express'
+import { Error, ErrorResponse } from '../types/error'
 class ErrorHandler extends Error {
   statusCode: number
   message: string
@@ -9,16 +10,12 @@ class ErrorHandler extends Error {
   }
 }
 
-const handleError = (err: Error, res: Response) => {
+const handleError = (err: Error, res: Response): Response<ErrorResponse> => {
   const { statusCode, message } = err
-  res.status(statusCode).json({
+  return res.status(statusCode).json({
     status: 'error',
     statusCode,
     message
   })
 }
-
-module.exports = {
-  ErrorHandler,
-  handleError
-}
+export { ErrorHandler, handleError }

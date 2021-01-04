@@ -1,16 +1,18 @@
 const { Team, Driver } = require('../db/models')
-const { ErrorHandler } = require('../middleware/errorHandler')
+import { ErrorHandler } from '../middleware/errorHandler'
+import { Request, Response, NextFunction } from 'express'
 
-const ListTeams = async (req, res, next) => {
+const ListTeams = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const teams = await Team.findAll()
     res.send(teams)
   } catch (error) {
+    console.log(error)
     return next(new ErrorHandler(400, error.message))
   }
 }
 
-const ViewTeam = async (req, res, next) => {
+const ViewTeam = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const team = await Team.findByPk(req.params.team_id, {
       include: [
@@ -26,7 +28,4 @@ const ViewTeam = async (req, res, next) => {
   }
 }
 
-module.exports = {
-  ListTeams,
-  ViewTeam
-}
+export { ListTeams, ViewTeam }

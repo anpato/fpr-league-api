@@ -1,4 +1,4 @@
-module.exports = [
+export default [
   require('cors')(),
   require('helmet')(),
   require('body-parser').json(),

@@ -1,8 +1,9 @@
-const bcrypt = require('bcrypt')
-const { saltRounds } = require('../env')
+import bcrypt from 'bcrypt'
+import env from '../env'
 
-module.exports = {
-  genUid: async (name, id) =>
-    await bcrypt.hash(name + id + new Date(), saltRounds),
-  compareUid: async (uid, storedUid) => await bcrypt.compare(uid, storedUid)
-}
+const genUid = async (name: string, id: string): Promise<string> =>
+  await bcrypt.hash(name + id + new Date(), env.saltRounds)
+const compareUid = async (uid: string, storedUid: string): Promise<string> =>
+  await bcrypt.compare(uid, storedUid)
+
+export { genUid, compareUid }

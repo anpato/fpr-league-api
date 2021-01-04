@@ -1,11 +1,11 @@
-const AppRouter = require('express').Router()
-const fs = require('fs')
-
+import { Router } from 'express'
+import fs from 'fs'
+const AppRouter: Router = Router()
 fs.readdirSync(__dirname)
   .filter((file) => file !== 'index.js')
   .forEach((file) => {
-    let route = require(`./${file}`)
+    const route = require(`./${file}`)
     route.path && route.router ? AppRouter.use(route.path, route.router) : null
   })
 
-module.exports = AppRouter
+export default AppRouter

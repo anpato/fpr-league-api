@@ -1,9 +1,12 @@
-const TeamController = require('../controllers/TeamController')
+import { controllerOptions } from '../types/controller'
+import TeamController from '../controllers/TeamController'
+import { Router } from 'express'
 
-const router = require('express').Router()
+let router = Router()
 
-TeamController.forEach((route) =>
+TeamController.forEach((route: controllerOptions) =>
   router[route.method](route.path, route.middleware || [], route.fn)
 )
 
-module.exports = { router, path: '/teams' }
+const path: string = '/teams'
+export { router, path }

@@ -1,5 +1,5 @@
 const { Admin } = require('../db/models')
-const { genUid } = require('./uidGen')
+import { genUid } from './uidGen'
 export default {
   updateUid: async () => {
     const admins = await Admin.findAll()

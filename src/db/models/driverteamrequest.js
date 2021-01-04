@@ -28,6 +28,11 @@ module.exports = (sequelize, DataTypes) => {
           model: 'drivers',
           key: 'id'
         }
+      },
+      viewed: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
       }
     },
     {

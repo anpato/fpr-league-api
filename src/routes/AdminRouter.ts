@@ -1,9 +1,11 @@
-const AdminController = require('../controllers/AdminController')
+import { controllerOptions } from '../types/controller'
+import AdminController from '../controllers/AdminController'
+import { Router } from 'express'
+const router = Router()
 
-const router = require('express').Router()
-
-AdminController.forEach((route) =>
+AdminController.forEach((route: controllerOptions) =>
   router[route.method](route.path, route.middleware || [], route.fn)
 )
 
-module.exports = { router, path: '/admin' }
+const path: string = '/admin'
+export { router, path }

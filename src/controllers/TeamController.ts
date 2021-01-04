@@ -1,5 +1,5 @@
-const { ListTeams, ViewTeam } = require('../utils/TeamQueries')
-
+import { ListTeams, ViewTeam } from '../utils/TeamQueries'
+import { controllerOptions } from '../types/controller'
 const getTeams = {
   method: 'get',
   path: '/',
@@ -11,5 +11,5 @@ const viewTeam = {
   path: '/:team_id',
   fn: ViewTeam
 }
-
-module.exports = [getTeams, viewTeam]
+let controller: controllerOptions[] = [getTeams, viewTeam]
+export default controller
